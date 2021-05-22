@@ -15,8 +15,6 @@ namespace App4.DataBase
         SQLiteAsyncConnection DbConection;
         public SQLiteDB()
         {
-
-
         }
 
         private async Task Init()
@@ -62,6 +60,32 @@ namespace App4.DataBase
             await Init();
             List<User> users = await DbConection.Table<User>().ToListAsync();
             return users;
+        }
+
+        public async Task<bool> LogIn(string name, string Password)
+        {
+            await Init();
+            User resultUser=null;
+            try
+            {
+                resultUser = await DbConection.Table<User>().
+                    Where(x => (x.name == name || x.userName == name) && x.password == Password).FirstOrDefaultAsync();
+
+                if (resultUser != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
+
         }
 
     }

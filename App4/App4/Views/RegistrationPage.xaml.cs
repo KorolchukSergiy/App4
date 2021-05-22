@@ -16,9 +16,6 @@ namespace App4.Views
     public partial class RegistrationPage : ContentPage
     {
 
-        User users = new User();
-       // UserDB userDB = new UserDB();
-
         public RegistrationPage()
         {
             InitializeComponent();
@@ -30,16 +27,14 @@ namespace App4.Views
         }
         private async void SignupValidation_ButtonClicked(object sender, EventArgs e)
         {
-            await DisplayAlert("User Add", "start", "OK");
-            if ((string.IsNullOrWhiteSpace(userNameEntry.Text)) || (string.IsNullOrWhiteSpace(emailEntry.Text)) ||
-                (string.IsNullOrWhiteSpace(passwordEntry.Text)) || (string.IsNullOrWhiteSpace(phoneEntry.Text)) ||
-                (string.IsNullOrEmpty(userNameEntry.Text)) || (string.IsNullOrEmpty(emailEntry.Text)) ||
-                (string.IsNullOrEmpty(passwordEntry.Text)) || (string.IsNullOrEmpty(phoneEntry.Text)))
+            //if ((string.IsNullOrWhiteSpace(userNameEntry.Text)) || (string.IsNullOrWhiteSpace(emailEntry.Text)) ||
+            //    (string.IsNullOrWhiteSpace(passwordEntry.Text)) || (string.IsNullOrWhiteSpace(phoneEntry.Text)) ||
+            //    (string.IsNullOrEmpty(userNameEntry.Text)) || (string.IsNullOrEmpty(emailEntry.Text)) ||
+            //    (string.IsNullOrEmpty(passwordEntry.Text)) || (string.IsNullOrEmpty(phoneEntry.Text)))
 
-            {
-                await DisplayAlert("Enter Data", "Enter Valid Data", "OK");
-            }
-            else if (!string.Equals(passwordEntry.Text, confirmpasswordEntry.Text))
+            //{
+            //}
+            if (!string.Equals(passwordEntry.Text, confirmpasswordEntry.Text)&& passwordEntry.Text.Length>=6)
             {
                 warningLabel.Text = "Enter Same Password";
                 passwordEntry.Text = string.Empty;
@@ -56,7 +51,7 @@ namespace App4.Views
             }
             else
             {
-              
+                User users = new User();
                 users.name = emailEntry.Text;
                 users.userName = userNameEntry.Text;
                 users.password = passwordEntry.Text;
@@ -64,7 +59,6 @@ namespace App4.Views
                 await DisplayAlert("User Add", users.name+ users.userName, "OK");
                 SQLiteDB Db = new SQLiteDB();
                 bool result = await Db.RegisterUser(users);
-                await DisplayAlert("User Add", "Finish work from Db", "OK");
                 if (result==true)
                 {
                     await DisplayAlert("User Add", result.ToString(), "OK");
@@ -74,31 +68,6 @@ namespace App4.Views
                 {
                     await DisplayAlert("User dont Add", "email or login is already in use", "OK");
                 }
-                //try
-                //{
-                //    var retrunvalue = userDB.AddUser(users);
-                //    if (retrunvalue == "Sucessfully Added")
-                //    {
-                //        await DisplayAlert("User Add", retrunvalue, "OK");
-
-                //        await Navigation.PushAsync(new LoginPage());
-
-                //    }
-                //    else
-                //    {
-                //        await DisplayAlert("User Add", retrunvalue, "OK");
-                //        warningLabel.IsVisible = false;
-                //        emailEntry.Text = string.Empty;
-                //        userNameEntry.Text = string.Empty;
-                //        passwordEntry.Text = string.Empty;
-                //        confirmpasswordEntry.Text = string.Empty;
-                //        phoneEntry.Text = string.Empty;
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    Debug.WriteLine(ex);
-                //}
             }
         }
         private async void login_ClickedEvent(object sender, EventArgs e)
