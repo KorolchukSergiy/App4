@@ -2,15 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App4.Views.LoginPage"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="LoginPage"
-                VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Entry x:Name="userNameEntry" ReturnType="Next" MaxLength="10" Placeholder="User Name" FontSize="Medium" 
+            <Entry x:Name="userNameEntry" ReturnType="Next"  Placeholder="User Name" FontSize="Medium" 
                    FlexLayout.AlignSelf="Stretch"  HorizontalOptions="CenterAndExpand"  TextColor="Black" Keyboard="Text" />
-            <Entry x:Name="passwordEntry" ReturnType="Next" MaxLength="12" IsPassword="True" Placeholder="Password" 
+            <Entry x:Name="passwordEntry" ReturnType="Next"  IsPassword="True" Placeholder="Password" 
                    FontSize="Medium" FlexLayout.AlignSelf="Stretch"  HorizontalOptions="CenterAndExpand"  TextColor="Black" />
             <Label x:Name="warningLabel" Text="" IsVisible="False" TextColor="Blue" FontSize="15" BackgroundColor="Transparent" FlexLayout.AlignSelf="End"/>
             

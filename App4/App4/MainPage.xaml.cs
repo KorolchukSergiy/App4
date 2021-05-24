@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using App4.Views;
 
 namespace App4
 {
@@ -13,10 +14,11 @@ namespace App4
         public MainPage()
         {
             InitializeComponent();
+          
         }
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("//StartPage");
         }
     }
 }

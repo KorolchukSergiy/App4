@@ -27,14 +27,13 @@ namespace App4.Views
         }
         private async void SignupValidation_ButtonClicked(object sender, EventArgs e)
         {
-            //if ((string.IsNullOrWhiteSpace(userNameEntry.Text)) || (string.IsNullOrWhiteSpace(emailEntry.Text)) ||
-            //    (string.IsNullOrWhiteSpace(passwordEntry.Text)) || (string.IsNullOrWhiteSpace(phoneEntry.Text)) ||
-            //    (string.IsNullOrEmpty(userNameEntry.Text)) || (string.IsNullOrEmpty(emailEntry.Text)) ||
-            //    (string.IsNullOrEmpty(passwordEntry.Text)) || (string.IsNullOrEmpty(phoneEntry.Text)))
-
-            //{
-            //}
-            if (!string.Equals(passwordEntry.Text, confirmpasswordEntry.Text)&& passwordEntry.Text.Length>=6)
+            if(string.IsNullOrWhiteSpace(userNameEntry.Text) || string.IsNullOrWhiteSpace(emailEntry.Text)
+                || string.IsNullOrWhiteSpace(passwordEntry.Text) || string.IsNullOrWhiteSpace(confirmpasswordEntry.Text)
+                || string.IsNullOrWhiteSpace(phoneEntry.Text))
+            {
+                await DisplayAlert("Sing Up", "Please fill in all fields ", "OK");
+            }
+            else if (!string.Equals(passwordEntry.Text, confirmpasswordEntry.Text)&& passwordEntry.Text.Length>=6)
             {
                 warningLabel.Text = "Enter Same Password";
                 passwordEntry.Text = string.Empty;

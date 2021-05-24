@@ -2,6 +2,7 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -23,8 +24,8 @@ namespace App4.DataBase
                 return;
 
             var DataBasePath = Path.Combine(FileSystem.AppDataDirectory, "MyDB.db");
-
             DbConection = new SQLiteAsyncConnection(DataBasePath);
+            //DbConection = new SQLiteAsyncConnection(DataBasePath);
             await DbConection.CreateTableAsync<User>();
         }
 
@@ -51,15 +52,26 @@ namespace App4.DataBase
                 return false;
             }
 
-           // var Id = await DbConection.InsertAsync(user);   
 
         }
 
-        public async Task<IEnumerable<User>> GetUser()
+        public async Task<List<User>> GetUsers()
         {
             await Init();
-            List<User> users = await DbConection.Table<User>().ToListAsync();
-            return users;
+            List<User> users = new List<User>();
+            try
+            {
+
+                //users = await DbConection.Table<User>().ToListAsync();
+                users = new List<User>( await DbConection.Table<User>().ToListAsync());
+                return users;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
+
         }
 
         public async Task<bool> LogIn(string name, string Password)
@@ -87,6 +99,7 @@ namespace App4.DataBase
             }
 
         }
+
 
     }
 }

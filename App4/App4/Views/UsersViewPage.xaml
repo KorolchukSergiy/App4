@@ -1,23 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App4.Views.Users">
+             x:Class="App4.Views.UsersViewPage"
+             xmlns:local="clr-namespace:App4.ViewModels"  
+             xmlns:model="clr-namespace:App4.Models" 
+             x:Name="BrowseItemsPage"
+             Shell.NavBarIsVisible="False">
+
     <ContentPage.Content>
-        
         <AbsoluteLayout Margin="3,3,3,3">
-            <Label Text="Users"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
             <ScrollView>
                 <FlexLayout IsVisible="True" JustifyContent="SpaceEvenly" Direction="Column" AlignItems="Start" >
-
-                    <ListView x:Name="listUser"
+                    <Label Text="Users page"
+                     HorizontalOptions="CenterAndExpand" />
+                    <ListView x:Name="listUsers"
                                   HasUnevenRows="True"
-                                  IsVisible="True">
+                                  IsVisible="True"
+                                    ItemsSource="{Binding .}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Margin="2,2,2,2">
+                                        <Label Text="{Binding Id}" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
                                         <Label Text="{Binding userName}" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
                                         <Label Text="{Binding name}" FontSize="12"/>
                                         <Label Text="{Binding phone}" FontSize="12"/>
@@ -30,4 +34,5 @@
             </ScrollView>
         </AbsoluteLayout>
     </ContentPage.Content>
+
 </ContentPage>

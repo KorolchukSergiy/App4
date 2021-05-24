@@ -15,28 +15,35 @@ namespace App4.Views
     {
         public LoginPage()
         {
-            InitializeComponent();
-            NavigationPage.SetHasBackButton(this, false);
+            InitializeComponent();    
             userNameEntry.ReturnCommand = new Command(() => userNameEntry.Focus());
             passwordEntry.ReturnCommand = new Command(() => passwordEntry.Focus());
         }
 
-        private async void voidSubmitButton_Clicked(object sender, EventArgs e)
+        private async void SubmitButton_Clicked(object sender, EventArgs e)
         {
-            SQLiteDB Db = new SQLiteDB();
-            string login = userNameEntry.Text;
-            string password = passwordEntry.Text;
-
-            bool result = await Db.LogIn(login, password);
-
-            if(result)
+            if (string.IsNullOrWhiteSpace(userNameEntry.Text) || string.IsNullOrWhiteSpace(passwordEntry.Text))
             {
-                await DisplayAlert("Log In", "Login is successful", "OK");
-                await Navigation.PushAsync(new Users());
+                await DisplayAlert("Log In", "Enter Login and Password", "OK");
             }
             else
             {
-                await DisplayAlert("Log In", "Login or password is incorected", "OK");
+                SQLiteDB Db = new SQLiteDB();
+                string login = userNameEntry.Text;
+                string password = passwordEntry.Text;
+
+                bool result = await Db.LogIn(login, password);
+
+                if (result)
+                {
+                    await DisplayAlert("Log In", "Login is successful", "OK");
+                    //App.Current.MainPage = new NavigationPage(new UsersPage());
+                    await Navigation.PushAsync(new UsersViewPage());
+                }
+                else
+                {
+                    await DisplayAlert("Log In", "Login or password is incorected", "OK");
+                }
             }
         }
         private async void SignUp_Clicked(object sender, EventArgs e)
