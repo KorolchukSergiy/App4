@@ -55,16 +55,12 @@ namespace App4.DataBase
 
         }
 
-        public async Task<List<User>> GetUsers()
+        public  Task<List<User>> GetUsers()
         {
-            await Init();
-            List<User> users = new List<User>();
+            Init();
             try
             {
-
-                //users = await DbConection.Table<User>().ToListAsync();
-                users = new List<User>( await DbConection.Table<User>().ToListAsync());
-                return users;
+                return DbConection.Table<User>().ToListAsync();
             }
             catch (Exception ex)
             {

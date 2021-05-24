@@ -19,20 +19,16 @@ namespace App4.Views
 
         public UsersViewPage()
         {
-            //NavigationPage.SetHasBackButton(this, false);
-           
             
             InitializeComponent();
             Loaded();
-            // 
-            // 
 
         }
 
-        void Loaded()
+        async void Loaded()
         {
             SQLiteDB userData = new SQLiteDB();            
-            listUsers.ItemsSource = userData.GetUsers().Result;
+            listUsers.ItemsSource = await userData.GetUsers();
         }
 
     }
