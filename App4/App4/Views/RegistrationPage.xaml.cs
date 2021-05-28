@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using App4.DataBase;
+using App4.Validators;
+using System.ComponentModel.DataAnnotations;
 
 namespace App4.Views
 {
@@ -20,55 +22,67 @@ namespace App4.Views
         {
             InitializeComponent();
             NavigationPage.SetHasBackButton(this, false);
-            emailEntry.ReturnCommand = new Command(() => userNameEntry.Focus());
-            userNameEntry.ReturnCommand = new Command(() => passwordEntry.Focus());
+            emailEntry.ReturnCommand = new Command(() => loginEntry.Focus());
+            loginEntry.ReturnCommand = new Command(() => passwordEntry.Focus());
             passwordEntry.ReturnCommand = new Command(() => confirmpasswordEntry.Focus());
             confirmpasswordEntry.ReturnCommand = new Command(() => phoneEntry.Focus());
+
+            passwordEntry.Focused += (object sender, FocusEventArgs e) => { passwordWarLabel.IsVisible = false; };
+            confirmpasswordEntry.Focused += (object sender, FocusEventArgs e) => { confirmPasswordWarLabel.IsVisible = false; };
+            phoneEntry.Focused += (object sender, FocusEventArgs e) => { phoneWarLabel.IsVisible = false; };
+            loginEntry.Focused += (object sender, FocusEventArgs e) => { loginWarLabel.IsVisible = false; };
+
         }
         private async void SignupValidation_ButtonClicked(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(userNameEntry.Text) || string.IsNullOrWhiteSpace(emailEntry.Text)
+            if (string.IsNullOrWhiteSpace(loginEntry.Text) || string.IsNullOrWhiteSpace(emailEntry.Text)
                 || string.IsNullOrWhiteSpace(passwordEntry.Text) || string.IsNullOrWhiteSpace(confirmpasswordEntry.Text)
                 || string.IsNullOrWhiteSpace(phoneEntry.Text))
             {
                 await DisplayAlert("Sing Up", "Please fill in all fields ", "OK");
             }
-            else if (!string.Equals(passwordEntry.Text, confirmpasswordEntry.Text)&& passwordEntry.Text.Length>=6)
-            {
-                warningLabel.Text = "Enter Same Password";
-                passwordEntry.Text = string.Empty;
-                confirmpasswordEntry.Text = string.Empty;
-                warningLabel.TextColor = Color.IndianRed;
-                warningLabel.IsVisible = true;
-            }
-            else if (phoneEntry.Text.Length < 10)
-            {
-                phoneEntry.Text = string.Empty;
-                phoneWarLabel.Text = "Enter 10 digit Number";
-                phoneWarLabel.TextColor = Color.IndianRed;
-                phoneWarLabel.IsVisible = true;
-            }
             else
             {
-                User users = new User();
-                users.name = emailEntry.Text;
-                users.userName = userNameEntry.Text;
-                users.password = passwordEntry.Text;
-                users.phone = phoneEntry.Text.ToString();
-                await DisplayAlert("User Add", users.name+ users.userName, "OK");
-                SQLiteDB Db = new SQLiteDB();
-                bool result = await Db.RegisterUser(users);
-                if (result==true)
+                User user = CreateUser();
+                List<ValidationResult> Errors = await new ValidateUser().ValidateNewUser(user, confirmpasswordEntry.Text);
+
+                if (Errors.Count == 0)
                 {
-                    await DisplayAlert("User Add", result.ToString(), "OK");
-                    await Navigation.PushAsync(new LoginPage());
+
+                    await DisplayAlert("Sing Up", "Registration successful", "OK");
                 }
                 else
                 {
-                    await DisplayAlert("User dont Add", "email or login is already in use", "OK");
+                     ShowErrors(Errors);
                 }
+
             }
         }
+
+        private User CreateUser()
+        {
+            return new User
+            {
+                email = emailEntry.Text,
+                login = loginEntry.Text,
+                password = passwordEntry.Text,
+                phone = phoneEntry.Text
+            };
+        }
+
+        private void ShowErrors(List<ValidationResult> Errors)
+        {
+
+            Page currentPage = Navigation.NavigationStack.LastOrDefault();
+            foreach (var item in Errors)
+            {
+                currentPage.FindByName<Label>(item.MemberNames.ToArray()[0] + "WarLabel").Text = item.ErrorMessage;
+                currentPage.FindByName<Label>(item.MemberNames.ToArray()[0] + "WarLabel").IsVisible = true;
+            }
+
+        }
+
+
         private async void login_ClickedEvent(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new LoginPage());

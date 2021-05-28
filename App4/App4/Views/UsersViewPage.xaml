@@ -14,9 +14,9 @@
                     <Label Text="Users page"
                      HorizontalOptions="CenterAndExpand" />
                     <ListView x:Name="listUsers"
-                                  HasUnevenRows="True"
-                                  IsVisible="True"
-                                    ItemsSource="{Binding .}">
+                              HasUnevenRows="True"
+                              IsVisible="True"
+                              ItemsSource="{Binding .}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -25,7 +25,12 @@
                                         <Label Text="{Binding userName}" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
                                         <Label Text="{Binding name}" FontSize="12"/>
                                         <Label Text="{Binding phone}" FontSize="12"/>
+                                        <Label Text="{Binding password}" FontSize="12" IsVisible="false"/>
                                     </StackLayout>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Clicked="Edit" CommandParameter="{Binding .}" Text="Edit User"/>
+                                        <MenuItem Clicked="Delete" CommandParameter="{Binding .}" Text="Delete"/>
+                                    </ViewCell.ContextActions>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

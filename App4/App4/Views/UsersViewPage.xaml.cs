@@ -22,13 +22,25 @@ namespace App4.Views
             
             InitializeComponent();
             Loaded();
-
+             
         }
 
         async void Loaded()
         {
             SQLiteDB userData = new SQLiteDB();            
             listUsers.ItemsSource = await userData.GetUsers();
+        }
+
+        public void Edit(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            DisplayAlert("More Context Action", (mi.CommandParameter as User).name + " more context action", "OK");
+  
+        }
+        public void Delete(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            DisplayAlert("Delete", mi.CommandParameter + " more context action", "OK");
         }
 
     }
