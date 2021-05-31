@@ -1,4 +1,5 @@
 ﻿using App4.DataBase;
+using App4.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,16 +29,13 @@ namespace App4.Views
             }
             else
             {
-                SQLiteDB Db = new SQLiteDB();
-                string login = userNameEntry.Text;
-                string password = passwordEntry.Text;
+                IvalidateUser validator = new ValidateUser();
 
-                bool result = await Db.LogIn(login, password);
+                bool result = await validator.AuthenticationUser(userNameEntry.Text, passwordEntry.Text);
 
                 if (result)
                 {
                     await DisplayAlert("Log In", "Login is successful", "OK");
-                    //App.Current.MainPage = new NavigationPage(new UsersPage());
                     await Navigation.PushAsync(new UsersViewPage());
                 }
                 else

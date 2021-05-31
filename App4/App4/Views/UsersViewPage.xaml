@@ -22,8 +22,8 @@
                                 <ViewCell>
                                     <StackLayout Margin="2,2,2,2">
                                         <Label Text="{Binding Id}" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
-                                        <Label Text="{Binding userName}" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
-                                        <Label Text="{Binding name}" FontSize="12"/>
+                                        <Label Text="{Binding email}" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
+                                        <Label Text="{Binding login}" FontSize="12"/>
                                         <Label Text="{Binding phone}" FontSize="12"/>
                                         <Label Text="{Binding password}" FontSize="12" IsVisible="false"/>
                                     </StackLayout>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -49,8 +50,10 @@ namespace App4.DataBase
             User resultUser=null;
             try
             {
-                resultUser = await DbConection.Table<User>().
-                             Where(x => (x.login == name || x.email == name) && x.password == Password).FirstOrDefaultAsync();
+
+                List<User> users = await DbConection.Table<User>().ToListAsync();
+                resultUser = users.Where(x => (x.login.Equals(name, StringComparison.OrdinalIgnoreCase) ||
+                x.email.Equals(name, StringComparison.OrdinalIgnoreCase)) && x.password == Password).FirstOrDefault();
 
                 if (resultUser != null)
                 {
@@ -94,9 +97,21 @@ namespace App4.DataBase
 
         }
 
-        public Task<bool> DeleteUser(int Id)
+        public async Task<bool> DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            await Init();
+            User user = await DbConection.Table<User>().FirstOrDefaultAsync(x=>x.Id==id);
+            int result;
+            int a = 5;
+            result = await DbConection.Table<User>().DeleteAsync(x => x.Id == id);
+            if (result!=0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Task<bool> EditUser(User user)

@@ -33,6 +33,7 @@ namespace App4.Views
             loginEntry.Focused += (object sender, FocusEventArgs e) => { loginWarLabel.IsVisible = false; };
 
         }
+
         private async void SignupValidation_ButtonClicked(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(loginEntry.Text) || string.IsNullOrWhiteSpace(emailEntry.Text)
@@ -44,12 +45,14 @@ namespace App4.Views
             else
             {
                 User user = CreateUser();
-                List<ValidationResult> Errors = await new ValidateUser().ValidateNewUser(user, confirmpasswordEntry.Text);
+                IvalidateUser validator = new ValidateUser();
+                List<ValidationResult> Errors = await validator.ValidateNewUser(user, confirmpasswordEntry.Text);
 
                 if (Errors.Count == 0)
                 {
 
                     await DisplayAlert("Sing Up", "Registration successful", "OK");
+                    await Navigation.PushAsync(new LoginPage());
                 }
                 else
                 {
@@ -66,7 +69,8 @@ namespace App4.Views
                 email = emailEntry.Text,
                 login = loginEntry.Text,
                 password = passwordEntry.Text,
-                phone = phoneEntry.Text
+                phone = phoneEntry.Text,
+                photo = string.Empty           
             };
         }
 

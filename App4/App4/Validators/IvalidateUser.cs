@@ -11,10 +11,11 @@ namespace App4.Validators
     {
         Task<List<ValidationResult>> ValidateNewUser(User user, string confirmPassword);
 
-        Task<bool> DeleteUser(int Id);
-
-        Task<bool> AuthenticationUser(string name, string password);
-
         Task<bool> EditUser(User user);
+
+        Task<bool> DeleteUser(int id);
+
+        Task<bool> AuthenticationUser(string email, string password);
+
     }
 }

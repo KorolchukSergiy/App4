@@ -10,17 +10,21 @@ namespace App4.Validators
 {
     class ValidateUser : IvalidateUser
     {
-        public Task<bool> AuthenticationUser(string name, string password)
+        public async Task<bool> AuthenticationUser(string email, string password)
         {
-            throw new NotImplementedException();
+            IDataBase context = new SQLiteDB();
+            bool result = await context.LogIn(email, password);
+            return result;
         }
 
-        public Task<bool> DeleteUser(int Id)
+        public async Task<bool> DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            IDataBase context = new SQLiteDB();
+            bool result = await context.DeleteUser(id);
+            return result;         
         }
 
-        public Task<bool> EditUser(User user)
+        public async Task<bool> EditUser(User user)
         {
             throw new NotImplementedException();
         }
