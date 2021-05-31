@@ -50,11 +50,9 @@ namespace App4.DataBase
             User resultUser=null;
             try
             {
-
                 List<User> users = await DbConection.Table<User>().ToListAsync();
                 resultUser = users.Where(x => (x.login.Equals(name, StringComparison.OrdinalIgnoreCase) ||
                 x.email.Equals(name, StringComparison.OrdinalIgnoreCase)) && x.password == Password).FirstOrDefault();
-
                 if (resultUser != null)
                 {
                     return true;
@@ -102,7 +100,6 @@ namespace App4.DataBase
             await Init();
             User user = await DbConection.Table<User>().FirstOrDefaultAsync(x=>x.Id==id);
             int result;
-            int a = 5;
             result = await DbConection.Table<User>().DeleteAsync(x => x.Id == id);
             if (result!=0)
             {

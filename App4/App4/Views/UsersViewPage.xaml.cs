@@ -41,11 +41,8 @@ namespace App4.Views
             bool accept = await DisplayAlert("Delete" ,"You want delete user : "+ (mi.CommandParameter as User).email +"?", "Yes","No");
             if (accept)
             {
-                await DisplayAlert("More Context Action", "1", "OK");
                 IvalidateUser validator = new ValidateUser();
-                await DisplayAlert("More Context Action", "2: "+ (mi.CommandParameter as User).Id, "OK");
                 bool result = await validator.DeleteUser((mi.CommandParameter as User).Id);
-                await DisplayAlert("More Context Action", "3", "OK");
                 if (result)
                 {
                     await DisplayAlert("Delete ", "User: " + (mi.CommandParameter as User).email + " has been deleted", "OK");
